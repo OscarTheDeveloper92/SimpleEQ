@@ -1180,9 +1180,6 @@
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\misc\juce_RuntimePermissions.cpp">
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\JUCE\modules\juce_core\misc\juce_StdFunctionCompat.cpp">
-      <Filter>JUCE Modules\juce_core\misc</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\misc\juce_Uuid.cpp">
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClCompile>
@@ -1346,6 +1343,9 @@
       <Filter>JUCE Modules\juce_core\threads</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\threads\juce_TimeSliceThread.cpp">
+      <Filter>JUCE Modules\juce_core\threads</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\JUCE\modules\juce_core\threads\juce_WaitableEvent.cpp">
       <Filter>JUCE Modules\juce_core\threads</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\JUCE\modules\juce_core\time\juce_PerformanceCounter.cpp">
@@ -3598,9 +3598,6 @@
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\misc\juce_RuntimePermissions.h">
-      <Filter>JUCE Modules\juce_core\misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\JUCE\modules\juce_core\misc\juce_StdFunctionCompat.h">
       <Filter>JUCE Modules\juce_core\misc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\JUCE\modules\juce_core\misc\juce_Uuid.h">
