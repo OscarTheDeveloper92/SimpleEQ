@@ -232,6 +232,14 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEqAudioProcessor::crea
     return layout;
 }
 
+ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
+{
+    ChainSettings settings;
+
+    settings.peakFreq = apvts.getRawParameterValue("Peak Freq")->load();
+    settings.peakQuality = apvts.getRawParameterValue("Peak Quality")->load();
+
+}
 
 
 //==============================================================================
