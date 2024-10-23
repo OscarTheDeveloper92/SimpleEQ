@@ -104,6 +104,16 @@ void SimpleEqAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 
     leftChain.prepare(spec);
     rightChain.prepare(spec);
+
+    auto chainSettings = getChainSettings(apvts);
+
+    auto peakCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate,
+        chainSettings.peakFreq,
+        chainSettings.peakQuality,
+        juce::Decibels::decibelsToGain(chainSettings.peakGainInDecibels));
+
+    *leftChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
+    *rightChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
 }
 
 void SimpleEqAudioProcessor::releaseResources()
@@ -173,6 +183,13 @@ void SimpleEqAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 
     leftChain.process(leftContext);
     rightChain.process(rightContext);
+
+    auto chainSettings = getChainSettings(apvts);
+
+    auto peakCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(getSampleRate(),
+        chainSettings.peakFreq, chainSettings.peakQuality, juce::Decibels::decibelsToGain(chainSettings.peakGainInDecibels));
+    *leftChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
+    *rightChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
 }
 
 //==============================================================================
@@ -214,7 +231,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEqAudioProcessor::crea
     layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Gain", "Peak Gain",
         juce::NormalisableRange<float>(-24.f, 24.f, 0.5f, 1.f), 0.0f));
     layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Quality", "Peak Quality",
-        juce::NormalisableRange<float>(0.1f, 10.f, 0.05f, 1.f), 1.0f));
+        juce::NormalisableRange<float>(0.1f, 10.f, 0.05f, 1.f), .25f));
 
     juce::StringArray stringArray;
     for (int i = 0; i < 4; ++i)
@@ -238,7 +255,13 @@ ChainSettings getChainSettings(juce::AudioProcessorValueTreeState& apvts)
 
     settings.peakFreq = apvts.getRawParameterValue("Peak Freq")->load();
     settings.peakQuality = apvts.getRawParameterValue("Peak Quality")->load();
+    settings.peakGainInDecibels = apvts.getRawParameterValue("Peak Gain")->load();
+    settings.lowCutFreq = apvts.getRawParameterValue("LowCut Freq")->load();
+    settings.highCutFreq = apvts.getRawParameterValue("HighCut Freq")->load();
+    settings.lowCutSlope = apvts.getRawParameterValue("LowCut Slope")->load();
+    settings.highCutSlope = apvts.getRawParameterValue("HighCut Slope")->load();
 
+    return settings;
 }
 
 
